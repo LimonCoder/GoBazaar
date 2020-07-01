@@ -1,0 +1,16 @@
+.catagory-header {
+	margin-top: -30px;
+}
+
+.main-hader {
+	padding: 9px 0px;
+	border-bottom: 1px solid #c8bfbf;
+}
+.modal-header .close {
+	margin-top: -25px;
+}
+.row.table-header{
+	padding: 21px 3px;
+	background: white;
+	font-size: 16px;
+}
