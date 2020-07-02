@@ -183,32 +183,12 @@ $(function($) {
 //------------------------------ ---------------- Porject Javascript start-------
 
 // ------------------------ catagorytable language change..................................
- $(document).ready(function() {
-                $('#example').DataTable({
-                    "language": {
-                        "sProcessing":   "প্রসেসিং হচ্ছে...",
-                        "sLengthMenu":   "_MENU_ টা এন্ট্রি দেখাও",
-                        "sZeroRecords":  "আপনি যা অনুসন্ধান করেছেন তার সাথে মিলে যাওয়া কোন রেকর্ড খুঁজে পাওয়া যায় নাই",
-                        "sInfo":         "_TOTAL_ টা এন্ট্রির মধ্যে _START_ থেকে _END_ পর্যন্ত দেখানো হচ্ছে",
-                        "sInfoEmpty":    "কোন এন্ট্রি খুঁজে পাওয়া যায় নাই",
-                        "sInfoFiltered": "(মোট _MAX_ টা এন্ট্রির মধ্যে থেকে বাছাইকৃত)",
-                        "sInfoPostFix":  "",
-                        "sSearch":       "অনুসন্ধান:",
-                        "sUrl":          "",
-                        "oPaginate": {
-                            "sFirst":    "প্রথমটা",
-                            "sPrevious": "আগেরটা",
-                            "sNext":     "পরবর্তীটা",
-                            "sLast":     "শেষেরটা"
-                        }
-                    }
-                });
-            })
+
 
 // ------------------------catagory-form now start ---------------------------------------
 
 getcatagory();
-getcatagorylist();
+
 
 
 
@@ -222,84 +202,24 @@ function getcatagory(){
 	});
 
 }
+
 function getcatagorylist(){
-	$.ajax({
-		url:'backendfile/getcatagorylists.php',
-		type:'post',
-		dataType:'json',
-		success:function (res) {
-				var serialno = 0;
-				var row = '';
-			$(res).each(function(index, value) {
-				var sub_catagory = "";
-				var serial = "";
-				var show = "";
-				var image = "";
-				if (value.subcatagoryname != null ){
-					sub_catagory = value.subcatagoryname;
-				}else{
-					sub_catagory = "";
-				}
-
-				if (value.catagoryicon != "NULL" ){
-					image = `<img src="assets/uploadedimages/${value.catagoryicon}" alt="${value.catagoryicon}" width="50" height="50" >`;
-				}else{
-					image = "";
-				}
-
-				if (value.serial != null ){
-					serial = value.serial;
-				}else{
-					serial = "";
-				}
-				if (value.is_show == 1 ){
-					show = `<span class="badge badge-danger badge-pill">Show</span>`;
-				}else{
-					show = `<span class="badge badge-danger badge-pill">Hide</span>`;
-				}
+	var dataTable;
+	$(document).ready(function () {
+		 	dataTable = $('#catagorytable').DataTable({
+				'destroy': true,
+			"processing": true,
+			"serverSide": true,
+			"ajax": "fetch.php"
 
 
-				row += `<tr role="row" class="odd">
-                            <td>${++serialno}</td>
-                            <td>${image}</td>
-                            <td>${ value.catagoryname }</td>
-                            <td>${ sub_catagory }</td>
-                            <td>${ serial }</td>
-                            <td>${ show }</td>
-                            <td align="center">
-                                <a href="javascript:void(0)" class="edit btn btn-primary btn-sm" onclick="category_edit(0)">সম্পাদন</a>
-                                <a href="javascript:void(0)" class="edit btn btn-danger btn-sm" onclick="category_delete(0)">মুছুন</a>
-                            </td>
-                        </tr>`;
+		});
+	})
 
-			});
-			$("#getcatagorylists").html(row);
-
-			$('#catagorytable').DataTable({
-					"language": {
-						"sProcessing":   "প্রসেসিং হচ্ছে...",
-						"sLengthMenu":   "_MENU_ টা এন্ট্রি দেখাও",
-						"sZeroRecords":  "আপনি যা অনুসন্ধান করেছেন তার সাথে মিলে যাওয়া কোন রেকর্ড খুঁজে পাওয়া যায় নাই",
-						"sInfo":         "_TOTAL_ টা এন্ট্রির মধ্যে _START_ থেকে _END_ পর্যন্ত দেখানো হচ্ছে",
-						"sInfoEmpty":    "কোন এন্ট্রি খুঁজে পাওয়া যায় নাই",
-						"sInfoFiltered": "(মোট _MAX_ টা এন্ট্রির মধ্যে থেকে বাছাইকৃত)",
-						"sInfoPostFix":  "",
-						"sSearch":       "অনুসন্ধান:",
-						"sUrl":          "",
-						"oPaginate": {
-							"sFirst":    "প্রথমটা",
-							"sPrevious": "আগেরটা",
-							"sNext":     "পরবর্তীটা",
-							"sLast":     "শেষেরটা"
-						}
-					}
-				});
-
-
-		}
-	});
 }
 
+
+getcatagorylist();
 
 $(document).ready(function () {
 
@@ -323,8 +243,9 @@ $(document).ready(function () {
 			contentType: false,
 			dataType:'json',
 			success:function (res) {
-				getcatagorylist()
+
 				getcatagory();
+				getcatagorylist();
 
 				if (res.duplicatecatagory == "*"){
 					$("#name_error").show();
@@ -345,6 +266,7 @@ $(document).ready(function () {
 					});
 
 				}
+
 
 
 			}

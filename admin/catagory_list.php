@@ -101,10 +101,6 @@
                         </tr>
 
                         </thead>
-                        <tbody id="getcatagorylists">
-
-                        </tbody>
-
                     </table>
                 </div>
             </div>
