@@ -187,6 +187,8 @@ $(function($) {
 
 // ------------------------catagory-form now start ---------------------------------------
 
+
+
 getcatagory();
 
 
@@ -261,15 +263,25 @@ $(document).ready(function () {
 			contentType: false,
 			dataType:'json',
 			success:function (res) {
-
 				getcatagory();
-				getcatagorylist();
-
 				if (res.duplicatecatagory == "*"){
 					$("#name_error").show();
 				}else{
 					$("#name_error").hide();
 				}
+
+				if (res.invaildextension == "*"){
+					$("#is_file_error").show();
+				}else{
+					$("#is_file_error").hide();
+				}
+
+				if (res.invailltype == "*"){
+					$("#is_serial_error").show();
+				}else{
+					$("#is_serial_error").hide();
+				}
+
 
 				if (res.status == "success"){
 					document.getElementById("catagory-form").reset();
@@ -294,4 +306,10 @@ $(document).ready(function () {
 
 
 	})
+
+	$('#catagorymodal').on('hidden.bs.modal', function () {
+		document.getElementById("catagory-form").reset();
+	});
+
+
 })

@@ -9,7 +9,7 @@ include('classes/catagory.php');
     <div class="container-fluid">
         <div class="row page-title-div">
             <div class="col-sm-6">
-                <h2 class="title">Dashboard</h2>
+                <h1 class="title" style="font-family: SutonnyOMJ">ড্যাশবোর্ড</h1>
 
             </div>
         </div>

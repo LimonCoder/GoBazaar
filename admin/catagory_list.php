@@ -55,6 +55,7 @@
                                             <label for="icon" class="col-md-4 form-control-label">আইকন নির্বাচন করুন</label>
                                             <div class="col-md-7">
                                                 <input id="icon" class="form-control" type="file" name="icon" >
+                                                <span class="text-danger" id="is_file_error" style="display: none">ছবির টাইপ ভুল দিয়েছেন</span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -62,7 +63,7 @@
                                             <div class="col-md-3">
                                                 <input type="text" class="form-control" name="sorting" id="sorting" placeholder="সিরিয়াল">
 
-                                                <span class="text-danger" id="is_show_error"></span>
+                                                <span class="text-danger" id="is_serial_error" style="display: none">সংখ্যা প্রদান করুন </span>
                                             </div>
                                             <label for="is_show" class="col-md-3 form-control-label">প্রদর্শিত হবে ?</label>
                                             <div class="col-md-1">

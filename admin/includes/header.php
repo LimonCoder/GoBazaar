@@ -1,5 +1,6 @@
 <?php
-
+$page = explode("/",$_SERVER['PHP_SELF']);
+$activepage = end($page);
 
 
 function numberEntoBn($value){
@@ -19,7 +20,14 @@ function numberEntoBn($value){
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Student Result Management System | Dashboard</title>
+    <?php
+        if ($activepage == "catagory_list.php"){
+            echo "<title>Goo-Bazaar | Catagory-Lists</title>";
+        }elseif ($activepage == "index.php"){
+            echo "<title>Goo-Bazaar | Dashboard</title>";
+        }
+    ?>
+
     <link rel="stylesheet" href="assets/css/bootstrap.min.css" media="screen" >
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/dataTables.bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/font-awesome.min.css" media="screen" >
@@ -96,7 +104,7 @@ function numberEntoBn($value){
                     <div class="sidebar-content">
                         <div class="user-info closed">
                             <img src="http://placehold.it/90/c2c2c2?text=User" alt="John Doe" class="img-circle profile-img">
-                            <h6 class="title">Admin</h6>
+                            <h6 class="title" style="font-family: SutonnyOMJ" ‍>আডমিন</h6>
                             <small class="info">PHP Developer</small>
                         </div>
                         <!-- /.user-info -->
@@ -107,7 +115,7 @@ function numberEntoBn($value){
                                     <span class="">সকল ক্যাটেগরি</span>
                                 </li>
                                 <li >
-                                    <a class="active" href="dashboard.php"><i class="fa fa-dashboard"></i> <span>ড্যাশবোর্ড</span> </a>
+                                    <a class="active" href="index.php"><i class="fa fa-dashboard"></i> <span>ড্যাশবোর্ড</span> </a>
                                     
                                 </li>
                                 <li>
