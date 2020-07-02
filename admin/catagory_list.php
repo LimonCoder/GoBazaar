@@ -92,7 +92,7 @@
                         <thead style="font-family: SutonnyOMJ; font-weight: normal;>
                         <tr role="row">
                             <th width="5%">নং</th>
-                            <th width="15%">ছবি</th>
+                            <th width="5%">ছবি</th>
                             <th width="15%">ক্যাটেগরি</th>
                             <th width="15%">সাব-ক্যাটেগরি</th>
                             <th width="10%">সিরিয়াল</th>

@@ -1,10 +1,21 @@
 <?php
+
+function numberEntoBn($value){
+    $sub = str_split($value);
+    $replece_array =  array("1","2","3","4","5","6","7","8","9","0");
+    $searching_array =array("১","২","৩","৪","৫","৬","৭","৮","৯","০");
+
+    $val = str_replace($replece_array, $searching_array,$sub);
+    return implode("",$val);
+
+}
 $con=mysqli_connect('localhost','root','','ecomarce')
 or die("connection failed".mysqli_errno());
 mysqli_set_charset($con,"utf8");
 
-$serialNo = 0;
+
 $request=$_REQUEST;
+$serial = $request['start'];
 
 $col =array(
     0   =>  'id',
@@ -24,13 +35,8 @@ $totalData=mysqli_num_rows($query);
 $totalFilter=$totalData;
 
 //Search
-$sql ="SELECT * FROM catagory_subcatagory WHERE 1=1";
 if(!empty($request['search']['value'])){
-    $sql.=" AND (id Like '".$request['search']['value']."%' ";
-    $sql.=" OR catagoryname Like '".$request['search']['value']."%' ";
-    $sql.=" OR subcatagoryname Like '".$request['search']['value']."%' ";
-    $sql.=" OR serial Like '".$request['search']['value']."%' )";
-    $sql.=" OR is_show Like '".$request['search']['value']."%' )";
+    $sql ="SELECT * FROM catagory_subcatagory WHERE catagoryname  LIKE '%".$request['search']['value']."%' OR subcatagoryname LIKE '%".$request['search']['value']."%'";
 }
 $query=mysqli_query($con,$sql);
 $totalData=mysqli_num_rows($query);
@@ -45,8 +51,8 @@ $data=array();
 
 while($row=mysqli_fetch_array($query)){
     $subdata=array();
-    $subdata[]=++$serialNo;
-    $subdata[]=$row['catagoryicon'];
+    $subdata[]= numberEntoBn(++$serial);
+    $subdata[]="<img src='assets/uploadedimages/".$row['catagoryicon']."' alt='' height='50px' width='50' />";
     $subdata[]=$row['catagoryname'];
     $subdata[]=$row['subcatagoryname'];
     $subdata[]=$row['serial'];
@@ -55,8 +61,8 @@ while($row=mysqli_fetch_array($query)){
     }else{
         $subdata[] = '<span class="badge badge-danger badge-pill">Hide</span>';
     }
-    $subdata[]= '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" onclick="category_edit(0)">সম্পাদন</a>
-                                 <a href="javascript:void(0)" class="edit btn btn-danger btn-sm" onclick="category_delete(0)">মুছুন</a>';
+    $subdata[]= '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" style="font-size: 16px;margin-left: 58px;" onclick="category_edit(0)">সম্পাদন</a>
+                                 <a href="javascript:void(0)" class="edit btn btn-danger btn-sm" style="font-size: 16px;" onclick="category_delete(0)">মুছুন</a>';
     $data[]=$subdata;
 }
 
