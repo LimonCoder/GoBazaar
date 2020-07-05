@@ -97,7 +97,7 @@
                                                         <div class="col-sm-6">
                                                             <input class="form-control-file picture" type="file" style="font-size: 12px" name="picture[]" data-pi_no="1" id="pictureDeafult">
                                                         </div>
-                                                        <div class="col-md-4">
+                                                        <div class="col-md-4" id="preview6">
                                                             <img src="" class="d-none image_preview" id="image_preview" style="height:50px; width:80px; border-radious: 5px; margin-left: 5px">
                                                         </div>
                                                         <div class="col-sm-2">

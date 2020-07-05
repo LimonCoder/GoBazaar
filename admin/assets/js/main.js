@@ -345,16 +345,17 @@ $(document).ready(function () {
 	var maxinputfile = 5;
 	var parentdiv = $("#picture_input1");
 
+	// multiple image add event //
 	$("#AddPictureInput").click(function () {
 
 		if ( maxinputfile != 1 ){
 			maxinputfile--;
 			parentdiv.append(`<div class="child" >
                             <div class="col-sm-6">
-<input class="form-control-file picture update" type="file" style="font-size: 12px" name="picture[]" data-pi_no="1" id="picture">
+<input class="form-control-file picture update" type="file" style="font-size: 12px" name="picture[]" data-pi_no="1" id="${maxinputfile}">
 </div>
-<div class="col-md-4">
-<img src="" class="d-none image_preview" id="image_preview${maxinputfile}" style="height:50px; width:80px; margin-left: 5px;margin-top: 5px; margin-bottom: 5px">
+<div class="col-md-4" id="preview${maxinputfile}">
+<img src="" class="d-none image_preview" id="image_preview" style="height:50px; width:80px; margin-left: 5px;margin-top: 5px; margin-bottom: 5px">
 </div>
 <div class="col-sm-2">
 <button type="button" class="btn btn-sm btn-danger" id="deletepicture">x</button>
@@ -365,24 +366,24 @@ $(document).ready(function () {
 	});
 
 
-
+	// multiple image delete event
 	$(parentdiv).on('click','#deletepicture',function (e) {
 		maxinputfile++;
 		e.preventDefault();
 		$(this).closest(".child").remove();
 	})
 
-	function readURL(input,defult) {
+	// image preview function //
+	function readURL(input,val) {
 		if (input.files && input.files[0]) {
 			var reader = new FileReader();
 
 			reader.onload = function(e) {
 
-				if (defult == 6){
-					$('#image_preview').attr('src', e.target.result);
-				}else{
-					$('#image_preview'+defult).attr('src', e.target.result);
-				}
+					$iamgeobject = $("#preview"+val).find('img');
+					$iamgeobject.attr('src', e.target.result);
+				//	$('#image_preview').attr('src', e.target.result);
+
 
 
 			}
@@ -390,14 +391,20 @@ $(document).ready(function () {
 		}
 	}
 
+	// default image preview called //
 	$("#pictureDeafult").change(function() {
+		readURL(this,6); // funciton called //
 
-		readURL(this,6);
 
 	});
 
-	$(parentdiv).on('change',"input#picture",function () {
-		readURL(this,maxinputfile);
+	// dynamic image preview called //
+	$(parentdiv).on('change',"input.update",function () {
+
+	  var valu =	$(this).attr('id');
+		readURL(this,valu);// funciton called //
+
+
 
 	});
 
