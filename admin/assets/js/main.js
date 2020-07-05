@@ -188,12 +188,12 @@ $(function($) {
 // ------------------------catagory-form now start ---------------------------------------
 
 
-
+// called getcatagory() //
 getcatagory();
 
 
 
-
+// getcatagory //
 function getcatagory(){
  	$.ajax({
 		url:'backendfile/getcatagory.php',
@@ -238,9 +238,10 @@ function getcatagorylist(){
 
 }
 
-
+// called getcatagorylist //
 getcatagorylist();
 
+// Add Catagory & Sub-catgory Form //
 $(document).ready(function () {
 
 	$("#catagory-form").submit(function (event) {
@@ -313,3 +314,112 @@ $(document).ready(function () {
 
 
 })
+
+// get Subcatagory //
+function getsubcatagory(val){
+	var catagoryname = val;
+	$.ajax({
+		url:'backendfile/getsubcatagory.php',
+		type:'post',
+		data:{
+			catagoryname:catagoryname
+		},
+		success:function (res) {
+			$("#sub_category").html(res);
+		}
+	})
+}
+
+
+// Add Product Form //
+$(document).ready(function () {
+	$("#AddProductForm").submit(function (e) {
+		e.preventDefault();
+		var formvalues = $("#AddProductForm").serializeArray();
+		console.log(formvalues);
+	})
+})
+
+// Add Multiple Image ProductSection... //
+$(document).ready(function () {
+	var maxinputfile = 5;
+	var parentdiv = $("#picture_input1");
+
+	$("#AddPictureInput").click(function () {
+
+		if ( maxinputfile != 1 ){
+			maxinputfile--;
+			parentdiv.append(`<div class="child" >
+                            <div class="col-sm-6">
+<input class="form-control-file picture update" type="file" style="font-size: 12px" name="picture[]" data-pi_no="1" id="picture">
+</div>
+<div class="col-md-4">
+<img src="" class="d-none image_preview" id="image_preview${maxinputfile}" style="height:50px; width:80px; margin-left: 5px;margin-top: 5px; margin-bottom: 5px">
+</div>
+<div class="col-sm-2">
+<button type="button" class="btn btn-sm btn-danger" id="deletepicture">x</button>
+</div>
+</div>`);
+		}
+
+	});
+
+
+
+	$(parentdiv).on('click','#deletepicture',function (e) {
+		maxinputfile++;
+		e.preventDefault();
+		$(this).closest(".child").remove();
+	})
+
+	function readURL(input) {
+		if (input.files && input.files[0]) {
+			var filename = $(input).val().split("\\");
+			filename = filename[filename.length-1];
+			$(input).text("12345.jpg");
+			var reader = new FileReader();
+
+			reader.onload = function(e) {
+
+				if (maxinputfile == 5){
+					$('#image_preview').attr('src', e.target.result);
+				}else{
+					$('#image_preview'+maxinputfile).attr('src', e.target.result);
+				}
+
+			}
+			reader.readAsDataURL(input.files[0]); // convert to base64 string
+		}
+	}
+
+	$("#picture").change(function() {
+		readURL(this);
+
+	});
+
+	$(parentdiv).on('change',"input#picture",function () {
+		readURL(this);
+
+	});
+
+
+
+
+
+})
+
+//// get catagory id........ ///
+function getcatgoryid(val){
+	var subcatagoryname = val;
+	$.ajax({
+		url:'backendfile/getCatagoryId.php',
+		type:'post',
+		data:{
+			id:subcatagoryname
+		},
+		success:function (res) {
+			$("#id").val(res);
+		}
+	})
+
+}

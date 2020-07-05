@@ -74,25 +74,32 @@ class catagory extends database {
         return array_unique($catagorys);
     }
 
-    public function getcatagorylist(){
-        $catagoryslist = [];
-        $query = "SELECT * FROM catagory_subcatagory";
+    public function getSubcatagory($catagory){
+        $subcatagorys = [];
+        $query = "SELECT catagory_subcatagory.subcatagoryname as subcatagory  FROM catagory_subcatagory WHERE catagoryname = '$catagory';";
         $results = $this->sqli->query($query);
         if ($results->num_rows > 0){
             while ($row = $results->fetch_array()){
-                $catagoryslist[] = array(
-                    "id"=> $row['id'],
-                    "catagoryname"=> $row['catagoryname'],
-                    "subcatagoryname"=> $row['subcatagoryname'],
-                    "catagoryicon"=> $row['catagoryicon'],
-                    "serial"=> $row['serial'],
-                    "is_show"=> $row['is_show']
-                );
+                $subcatagorys[] = $row['subcatagory'];
             }
+            return array_unique($subcatagorys);
+
         }
 
-        return $catagoryslist;
+
     }
+
+    public function getcatagoryid($subcatagory){
+        $query = "SELECT catagory_subcatagory.id as catagoryid FROM catagory_subcatagory WHERE subcatagoryname = '$subcatagory'";
+        $results= $this->sqli->query($query);
+        $row = $results->fetch_array();
+        $id = $row['catagoryid'];
+        return $id;
+
+
+    }
+
+   
 
 }
 

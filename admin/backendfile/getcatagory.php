@@ -1,9 +1,9 @@
 <?php
+
 include('../classes/database.php');
 include('../classes/catagory.php');
 
 $object = new catagory();
-
 $values = $object->getcatagory(); ?>
 
 <option value="">সিলেক্ট</option>

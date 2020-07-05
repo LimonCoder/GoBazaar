@@ -52,7 +52,7 @@ $data=array();
 while($row=mysqli_fetch_array($query)){
     $subdata=array();
     $subdata[]= numberEntoBn(++$serial);
-    $subdata[]="<img src='assets/uploadedimages/".$row['catagoryicon']."' alt='' height='50px' width='50' />";
+    $subdata[]= ($row['catagoryicon'] != "NULL")?"<img src='assets/uploadedimages/".$row['catagoryicon']."' alt='' height='50px' width='50' />":"";
     $subdata[]=$row['catagoryname'];
     $subdata[]=$row['subcatagoryname'];
     $subdata[]=$row['serial'];

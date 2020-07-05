@@ -122,14 +122,15 @@ function numberEntoBn($value){
                                     <a href="catagory_list.php"><i class="fa fa-file-text"></i> <span> ক্যাটেগরি ও সাব-ক্যাটেগরি </span></a>
 
                                 </li>
-                                <li class="has-children">
-                                    <a href="#"><i class="fa fa-file-text"></i> <span> পন্য ব্যবস্থাপনা</span></a>
+                                <li>
+                                    <a href="add-porduct.php"><i class="fa fa-file-text"></i> <span> পন্য ব্যবস্থাপনা</span></a>
 
-                                </li><li class="has-children">
+                                </li>
+                                <li >
                                     <a href="#"><i class="fa fa-file-text"></i> <span> স্টক ব্যবস্থাপনা</span></a>
 
                                 </li>
-                                </li><li class="has-children">
+                                <li >
                                     <a href="#"><i class="fa fa-file-text"></i> <span>  কাষ্টমারগন </span></a>
 
                                 <li class="has-children">
