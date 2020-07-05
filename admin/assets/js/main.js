@@ -372,33 +372,32 @@ $(document).ready(function () {
 		$(this).closest(".child").remove();
 	})
 
-	function readURL(input) {
+	function readURL(input,defult) {
 		if (input.files && input.files[0]) {
-			var filename = $(input).val().split("\\");
-			filename = filename[filename.length-1];
-			$(input).text("12345.jpg");
 			var reader = new FileReader();
 
 			reader.onload = function(e) {
 
-				if (maxinputfile == 5){
+				if (defult == 6){
 					$('#image_preview').attr('src', e.target.result);
 				}else{
-					$('#image_preview'+maxinputfile).attr('src', e.target.result);
+					$('#image_preview'+defult).attr('src', e.target.result);
 				}
+
 
 			}
 			reader.readAsDataURL(input.files[0]); // convert to base64 string
 		}
 	}
 
-	$("#picture").change(function() {
-		readURL(this);
+	$("#pictureDeafult").change(function() {
+
+		readURL(this,6);
 
 	});
 
 	$(parentdiv).on('change',"input#picture",function () {
-		readURL(this);
+		readURL(this,maxinputfile);
 
 	});
 
