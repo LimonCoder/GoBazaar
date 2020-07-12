@@ -123,7 +123,7 @@ function numberEntoBn($value){
 
                                 </li>
                                 <li>
-                                    <a href="add-porduct.php"><i class="fa fa-file-text"></i> <span> পন্য ব্যবস্থাপনা</span></a>
+                                    <a href="productstore.php"><i class="fa fa-file-text"></i> <span> পন্য ব্যবস্থাপনা</span></a>
 
                                 </li>
                                 <li >

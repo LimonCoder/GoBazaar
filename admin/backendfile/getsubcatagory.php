@@ -5,11 +5,15 @@ include('../classes/catagory.php');
 
 
 $object = new catagory();
-$catagory =  $object->getSubcatagory($_POST['catagoryname']); ?>
+$catagory = removeEmptyvalues($object->getSubcatagory($_POST['catagoryname']));
+
+?>
 
 <option value="">পন্যের সাব ক্যাটাগরি নির্বাচন করুণ</option>
 <?php
-if(count(array_filter($catagory)) != 0) {
+
+
+if(count($catagory) != 0) {
 foreach ($catagory as $value){ ?>
 
     <option value="<?=$value?>"><?=$value?></option>
@@ -20,6 +24,17 @@ foreach ($catagory as $value){ ?>
 
 
 
+
+function removeEmptyvalues($array){
+    $valu = array();
+    foreach ($array as $value){
+
+        if ($value != ''){
+            $valu[] = $value;
+        }
+    }
+    return $valu;
+}
 
 
 ?>

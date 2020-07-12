@@ -82,7 +82,7 @@ class catagory extends database {
             while ($row = $results->fetch_array()){
                 $subcatagorys[] = $row['subcatagory'];
             }
-            return array_unique($subcatagorys);
+            return $subcatagorys;
 
         }
 

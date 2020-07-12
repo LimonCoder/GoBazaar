@@ -200,6 +200,7 @@ function getcatagory(){
 		type:'post',
 		success:function (res) {
 			$("#category").html(res);
+			$("#filter_category").html(res);
 		}
 	});
 
@@ -265,6 +266,7 @@ $(document).ready(function () {
 			dataType:'json',
 			success:function (res) {
 				getcatagory();
+                getcatagorylist();
 				if (res.duplicatecatagory == "*"){
 					$("#name_error").show();
 				}else{
@@ -326,6 +328,7 @@ function getsubcatagory(val){
 		},
 		success:function (res) {
 			$("#sub_category").html(res);
+			$("#filter_sub_category").html(res);
 		}
 	})
 }
@@ -335,8 +338,49 @@ function getsubcatagory(val){
 $(document).ready(function () {
 	$("#AddProductForm").submit(function (e) {
 		e.preventDefault();
+		var formdatas = new FormData()
 		var formvalues = $("#AddProductForm").serializeArray();
-		console.log(formvalues);
+
+		$(formvalues).each(function (index,val) {
+			formdatas.append(val.name,val.value);
+		})
+
+		for (var i =0; i<=5; i++){
+			var images = $(".imagesfile")[i];
+			if (typeof images != 'undefined'){
+				formdatas.append("image"+i,images.files[0]);
+			}
+		 	//var	imagevalues = $(".imagesfile")[i];
+
+		}
+		$.ajax({
+			url:'backendfile/add-product.php',
+			type:'post',
+			data:formdatas,
+			processData: false,
+			contentType: false,
+			dataType:'json',
+			success:function (res) {
+				if (res.status == "success"){
+					document.getElementById("AddProductForm").reset();
+					$('#AddProductModal').modal('hide');
+					swal({
+						title: "সফল !",
+						text: res.massage,
+						icon: "success",
+						timer: 1500,
+						buttons:false
+
+					});
+
+				}
+			}
+		})
+
+
+
+
+
 	})
 })
 
@@ -352,7 +396,7 @@ $(document).ready(function () {
 			maxinputfile--;
 			parentdiv.append(`<div class="child" >
                             <div class="col-sm-6">
-<input class="form-control-file picture update" type="file" style="font-size: 12px" name="picture[]" data-pi_no="1" id="${maxinputfile}">
+<input class="form-control-file picture imagesfile" type="file" style="font-size: 12px" name="picture[]" data-pi_no="1" id="${maxinputfile}">
 </div>
 <div class="col-md-4" id="preview${maxinputfile}">
 <img src="" class="d-none image_preview" id="image_preview" style="height:50px; width:80px; margin-left: 5px;margin-top: 5px; margin-bottom: 5px">
@@ -399,7 +443,7 @@ $(document).ready(function () {
 	});
 
 	// dynamic image preview called //
-	$(parentdiv).on('change',"input.update",function () {
+	$(parentdiv).on('change',"input.imagesfile",function () {
 
 	  var valu =	$(this).attr('id');
 		readURL(this,valu);// funciton called //
@@ -429,3 +473,115 @@ function getcatgoryid(val){
 	})
 
 }
+
+// check duplicate Product Name //
+function checkduplicateProduct(val){
+	var name = val;
+	$(document).ready(function () {
+		$.ajax({
+			url:'backendfile/duplicateProductName.php',
+			type:'post',
+			data:{"ProductName":name},
+			success:function (res) {
+				if (res == 1){
+					$("#productname_error").show();
+					$("#submit_btn").attr('disabled','disabled');
+				}else{
+					$("#submit_btn").removeAttr('disabled');
+					$("#productname_error").hide();
+				}
+			}
+		})
+	})
+}
+
+// Product Searching By Catagory with Sub-catagory //
+$(document).ready(function () {
+
+	function productslist(catagory = '',subcatagory = ''){
+		var catagory = catagory;
+		var subcatagory = subcatagory;
+
+
+		dataTable = $('#producttable').DataTable({
+			'destroy': true,
+			"processing": true,
+			"serverSide": true,
+			"ajax": {
+				url:'productlist.php',
+				type:'post',
+				data:{
+					"catagory":catagory,
+					"subcatagory":subcatagory
+				}
+			},
+			"language":	{
+				"sProcessing":   "প্রসেসিং হচ্ছে...",
+				"sLengthMenu":   "_MENU_ টা এন্ট্রি দেখাও",
+				"sZeroRecords":  "আপনি যা অনুসন্ধান করেছেন তার সাথে মিলে যাওয়া কোন রেকর্ড খুঁজে পাওয়া যায় নাই",
+				"sInfo":         "_TOTAL_ টা এন্ট্রির মধ্যে _START_ থেকে _END_ পর্যন্ত দেখানো হচ্ছে",
+				"sInfoEmpty":    "কোন এন্ট্রি খুঁজে পাওয়া যায় নাই",
+				"sInfoFiltered": "(মোট _MAX_ টা এন্ট্রির মধ্যে থেকে বাছাইকৃত)",
+				"sInfoPostFix":  "",
+				"sSearch":       "অনুসন্ধান:",
+				"sUrl":          "",
+				"oPaginate": {
+					"sFirst":    "প্রথমটা",
+					"sPrevious": "আগেরটা",
+					"sNext":     "পরবর্তীটা",
+					"sLast":     "শেষেরটা"
+				}
+			}
+
+
+
+		});
+	}
+
+
+
+	$("#catagoryBysubcatagory").submit(function (e) {
+		e.preventDefault();
+
+		var catagory = $("#filter_category").val();
+		var subcatagory = $("#filter_sub_category").val();
+
+		productslist(catagory,subcatagory);
+
+		// dataTable = $('#producttable').DataTable({
+		// 	'destroy': true,
+		// 	"processing": true,
+		// 	"serverSide": true,
+		// 	"ajax": {
+		// 		url:'productlist.php',
+		// 		type:'post',
+		// 		data:{
+		// 			"catagory":catagory,
+		// 			"subcatagory":subcatagory
+		// 		}
+		// 	},
+		// 	"language":	{
+		// 		"sProcessing":   "প্রসেসিং হচ্ছে...",
+		// 		"sLengthMenu":   "_MENU_ টা এন্ট্রি দেখাও",
+		// 		"sZeroRecords":  "আপনি যা অনুসন্ধান করেছেন তার সাথে মিলে যাওয়া কোন রেকর্ড খুঁজে পাওয়া যায় নাই",
+		// 		"sInfo":         "_TOTAL_ টা এন্ট্রির মধ্যে _START_ থেকে _END_ পর্যন্ত দেখানো হচ্ছে",
+		// 		"sInfoEmpty":    "কোন এন্ট্রি খুঁজে পাওয়া যায় নাই",
+		// 		"sInfoFiltered": "(মোট _MAX_ টা এন্ট্রির মধ্যে থেকে বাছাইকৃত)",
+		// 		"sInfoPostFix":  "",
+		// 		"sSearch":       "অনুসন্ধান:",
+		// 		"sUrl":          "",
+		// 		"oPaginate": {
+		// 			"sFirst":    "প্রথমটা",
+		// 			"sPrevious": "আগেরটা",
+		// 			"sNext":     "পরবর্তীটা",
+		// 			"sLast":     "শেষেরটা"
+		// 		}
+		// 	}
+		//
+		//
+		//
+		// });
+	})
+	productslist();
+
+})
