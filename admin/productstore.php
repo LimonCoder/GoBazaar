@@ -31,8 +31,9 @@
                                     <h5 class="modal-title" id="myModalLabel" style="font-family: SutonnyOMJ">পন্য যুক্ত করুন</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">X</button>
                                 </div>
-                                <form class="AddProductForm" id="AddProductForm" action="javascript:void(0)" enctype="multipart/form-data" method="post">
+                                <form class="AddProduct" id="AddProductForm" action="javascript:void(0)" enctype="multipart/form-data" method="post">
                                     <input type="hidden" id="id" name="id" value="">
+                                    <input type="hidden" id="productid" name="productid" value="">
                                     <div class="alert d-none" id="msg_div">
                                         <span id="res_message"></span>
                                     </div>
@@ -40,7 +41,7 @@
                                         <div class="form-group row">
                                             <label class="col-md-3 col-form-label">পন্যের ক্যাটাগরি:</label>
                                             <div class="col-md-9">
-                                                <select class="form-control"  name="category" onchange="getsubcatagory(this.value)">
+                                                <select class="form-control" id="cataogry"  name="category" onchange="getsubcatagory(this.value)">
                                                     <option value="">পন্যের ধরন নির্বাচন করুণ</option>
                                                     <?php
                                                     include ('classes/database.php');
@@ -61,6 +62,7 @@
                                                 <select class="form-control" id="sub_category" name="sub_category" onchange="getcatgoryid(this.value)">
                                                     <option value="">পন্যের সাব ক্যাটাগরি নির্বাচন করুণ</option>
                                                 </select>
+                                                <div id="errors_subcaatagory" style="color: red;">পণ্যের সাব ক্যাটাগরি দিতে হবে</div>
                                             </div>
 
                                         </div>
@@ -80,7 +82,7 @@
                                             <label class="col-md-3 col-form-label">পন্যের নাম:</label>
                                             <div class="col-md-9">
                                                 <input class="form-control" type="text" onchange="checkduplicateProduct(this.value)"  name="name" id="name" placeholder="পন্যের নাম লিখুন">
-                                                <span class="text-danger" id="productname_error" style="display: none">এই পন্যেটি আগে যোগ করা হয়েছে</span>
+                                                <span class="text-danger" id="productname_error" >এই পন্যেটি আগে যোগ করা হয়েছে</span>
                                             </div>
                                         </div>
                                         <div class="form-group row">
@@ -108,11 +110,13 @@
 
                                                 </div>
 
-                                                <div class="picture_inputs"></div>
+                                                <div id="picture_inputs" style="color: red; " ‍>পণ্যের ছবি যোগ করতে হবে.</div>
 
                                             </div>
                                         </div>
-                                        <div class="row product_pictures"></div>
+                                        <div class="row" id="product_pictures">
+
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
 
@@ -186,6 +190,7 @@
 
 
 </div>
+
 <!-- main page  -->
 <?php include('includes/footer.php')?>
 

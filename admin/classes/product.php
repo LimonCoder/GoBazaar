@@ -42,6 +42,17 @@ class product extends database{
 
 
     }
+    public function findValues($id){
+        $query = "SELECT c.catagoryname, c.subcatagoryname, p.* FROM `productmanagment` p
+JOIN catagory_subcatagory c ON p.catagoryId = c.id
+WHERE p.id = $id";
+        $results = $this->sql->query($query);
+
+        return $results->fetch_array();
+    }
+
+
+
 
 }
 

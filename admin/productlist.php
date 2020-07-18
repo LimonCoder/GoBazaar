@@ -49,14 +49,23 @@ $data = array();
 
 
 while ($row = $res->fetch_array()){
+    $id = $row['id'];
     $subarray = array();
     $subarray[] = ++$serialno;
-    $subarray[] = $row['ProductImage'];
+
+    if (!empty($row['ProductImage'])){
+        $rowiamge =  explode("#",$row['ProductImage']);
+        $subarray[] = "<img src='assets/uploadedimages/".$rowiamge[0]."' alt='' height='50px' width='50' />";
+
+    }else{
+        $subarray[] = $row['ProductImage'];
+    }
+
     $subarray[] = $row['catagory'];
     $subarray[] = $row['subcatagory'];
     $subarray[] = $row['ProductName'];
     $subarray[] = $row['date'];
-    $subarray[]= '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" style="font-size: 16px;margin-left: 58px;" onclick="category_edit(0)">সম্পাদন</a>
+    $subarray[]= '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm" style="font-size: 16px;margin-left: 58px;" onclick="product_edit('.$id.')" id="" >সম্পাদন</a>
                                  <a href="javascript:void(0)" class="edit btn btn-danger btn-sm" style="font-size: 16px;" onclick="category_delete(0)">মুছুন</a>';
     $data[] = $subarray;
 }
